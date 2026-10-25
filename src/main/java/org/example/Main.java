@@ -73,7 +73,24 @@ public class Main {
                         System.out.println(book.getId() + " | " + book.getIsbn() + " | " + book.getTitle() + " | " + book.getCheckedOutTo());
                     }
                 }
-            }
+
+                System.out.println("Enter C to return a book or books. Enter X to return to the main menu!");
+                String checkInChoice = scanner.nextLine();
+                if (checkInChoice.equalsIgnoreCase("X")) {
+                    continue;
+                }
+                if (checkInChoice.equalsIgnoreCase("C")) {
+                    System.out.println("Enter the ID of the book you want to return.");
+                    String returnId = scanner.nextLine();
+
+                    for (Book book : books) {
+                        if (String.valueOf(book.getId()).equals(returnId)) {
+                            book.checkIn();
+                            System.out.println("You returned: " + book.getTitle());
+                        }
+                    }
+                } // closes C
+            } // closes option 2
 
             if (choice.equals("3")) {
                 System.out.println("Goodbye!");
