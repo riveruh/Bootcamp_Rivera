@@ -1,4 +1,5 @@
 package org.example;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -24,8 +25,17 @@ public class Main {
         books[18] = new Book(19, "9781250229885", "Our Wives Under the Sea");
         books[19] = new Book(20, "9780525563433", "Cantoras");
 
+        Scanner scanner = new Scanner(System.in);
         System.out.println("1. Show Available Books As Of Right Now");
         System.out.println("2. Show Current Checked Out Books");
         System.out.println("3. Exit");
+
+        System.out.println("Enter your choice!");
+        String choice = scanner.nextLine();
+
+        if (choice.equals("3")) {
+            System.out.println("Goodbye!");
+            return;
+        }
     }
 }
