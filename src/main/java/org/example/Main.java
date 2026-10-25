@@ -28,7 +28,7 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            // menu and choice handling go here
+            // menu and choice handling go here :D
             System.out.println("1. Show Available Books As Of Right Now");
             System.out.println("2. Show Current Checked Out Books");
             System.out.println("3. Exit");
@@ -41,15 +41,34 @@ public class Main {
 
                 for (Book book : books) {
                     if (book.isCheckedOut() == false) {
-                        System.out.println(book.getId() + " | " + book.getIsbn() + " | " + book.getTitle());                    }
+                        System.out.println(book.getId() + " | " + book.getIsbn() + " | " + book.getTitle());
+                    }
                 }
-            }
+
+                System.out.println("Enter the ID of the book you'd like to borrow, or X to return to the main menu:");
+                String selectedId = scanner.nextLine();
+
+                if (selectedId.equalsIgnoreCase("X")) {
+                    continue;
+                }
+
+                for (Book book : books) {
+                    if (String.valueOf(book.getId()).equals(selectedId)) {
+                        System.out.println("You selected: " + book.getTitle());
+                        System.out.println("What's your name?");
+                        String userName = scanner.nextLine();
+
+                        book.checkOut(userName);
+                        System.out.println("You checked out: " + book.getTitle());
+
+                    } // closes the matching-ID if
+                } // closes the for loop
+            } // closes option 1
 
             if (choice.equals("3")) {
                 System.out.println("Goodbye!");
                 return;
-
-            } // closes if
+            }
         } // closes while
     } // closes main
 } // closes Main class
