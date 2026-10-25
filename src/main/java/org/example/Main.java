@@ -36,6 +36,14 @@ public class Main {
             System.out.println("Enter your choice!");
             String choice = scanner.nextLine();
 
+            if (choice.equals("1") == false &&
+                    choice.equals("2") == false &&
+                    choice.equals("3") == false) {
+
+                System.out.println("Please enter 1, 2, or 3.");
+                continue;
+            }
+
             if (choice.equals("1")) {
                 System.out.println("Available Books:");
 
@@ -52,8 +60,15 @@ public class Main {
                     continue;
                 }
 
+                boolean found = false;
+
                 for (Book book : books) {
                     if (String.valueOf(book.getId()).equals(selectedId)) {
+                        found = true;
+                        if (book.isCheckedOut() == true) {
+                            System.out.println("That book is already checked out. Sorry");
+                            break;
+                        }
                         System.out.println("You selected: " + book.getTitle());
                         System.out.println("What's your full name? First and Last.");
                         String userName = scanner.nextLine();
@@ -63,11 +78,13 @@ public class Main {
 
                     } // closes the matching-ID if
                 } // closes the for loop
+                if (found == false) {
+                    System.out.println("No book is found with that ID. Try again");
+                }
             } // closes option 1
 
             if (choice.equals("2")) {
                 System.out.println("Checked Out Books:");
-
                 for (Book book : books) {
                     if (book.isCheckedOut() == true) {
                         System.out.println(book.getId() + " | " + book.getIsbn() + " | " + book.getTitle() + " | " + book.getCheckedOutTo());
@@ -76,18 +93,34 @@ public class Main {
 
                 System.out.println("Enter C to return a book or books. Enter X to return to the main menu!");
                 String checkInChoice = scanner.nextLine();
+                if (checkInChoice.equalsIgnoreCase("C") == false &&
+                        checkInChoice.equalsIgnoreCase("X") == false) {
+
+                    System.out.println("Please enter C or X.");
+                    continue;
+                }
                 if (checkInChoice.equalsIgnoreCase("X")) {
                     continue;
                 }
                 if (checkInChoice.equalsIgnoreCase("C")) {
                     System.out.println("Enter the ID of the book you want to return.");
                     String returnId = scanner.nextLine();
+                    boolean found = false;
 
                     for (Book book : books) {
                         if (String.valueOf(book.getId()).equals(returnId)) {
+                            found = true;
+                            if (book.isCheckedOut() == false) {
+                                System.out.println("That book isn't checked out. Check the book's spine for the correct ID! ");
+                                break;
+                            }
                             book.checkIn();
                             System.out.println("You returned: " + book.getTitle());
                         }
+                    } // closes the for loop
+
+                    if (found == false) {
+                        System.out.println("No book found with that ID. Try again");
                     }
                 } // closes C
             } // closes option 2
@@ -95,7 +128,6 @@ public class Main {
             if (choice.equals("3")) {
                 System.out.println("Goodbye!");
                 return;
-
             }
         } // closes while
     } // closes main
