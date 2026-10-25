@@ -55,7 +55,7 @@ public class Main {
                 for (Book book : books) {
                     if (String.valueOf(book.getId()).equals(selectedId)) {
                         System.out.println("You selected: " + book.getTitle());
-                        System.out.println("What's your name?");
+                        System.out.println("What's your full name? First and Last.");
                         String userName = scanner.nextLine();
 
                         book.checkOut(userName);
@@ -65,9 +65,20 @@ public class Main {
                 } // closes the for loop
             } // closes option 1
 
+            if (choice.equals("2")) {
+                System.out.println("Checked Out Books:");
+
+                for (Book book : books) {
+                    if (book.isCheckedOut() == true) {
+                        System.out.println(book.getId() + " | " + book.getIsbn() + " | " + book.getTitle() + " | " + book.getCheckedOutTo());
+                    }
+                }
+            }
+
             if (choice.equals("3")) {
                 System.out.println("Goodbye!");
                 return;
+
             }
         } // closes while
     } // closes main
