@@ -26,6 +26,7 @@ public class Main {
         books[18] = new Book(19, "9781250229885", "Our Wives Under the Sea");
         books[19] = new Book(20, "9780525563433", "Cantoras");
 
+
         Scanner scanner = new Scanner(System.in);
         while (true) {
             // menu and choice handling go here :D
@@ -36,9 +37,7 @@ public class Main {
             System.out.println("Enter your choice!");
             String choice = scanner.nextLine();
 
-            if (choice.equals("1") == false &&
-                    choice.equals("2") == false &&
-                    choice.equals("3") == false) {
+            if (choice.equals("1") == false && choice.equals("2") == false && choice.equals("3") == false) {
 
                 System.out.println("Please enter 1, 2, or 3.");
                 continue;
@@ -46,13 +45,17 @@ public class Main {
 
             if (choice.equals("1")) {
                 System.out.println("Available Books:");
+                boolean hasAvailableBooks = false;
 
                 for (Book book : books) {
                     if (book.isCheckedOut() == false) {
+                        hasAvailableBooks = true;
                         System.out.println(book.getId() + " | " + book.getIsbn() + " | " + book.getTitle());
                     }
                 }
-
+                if (hasAvailableBooks == false) {
+                    System.out.println("No books are available right now.");
+                }
                 System.out.println("Enter the ID of the book you'd like to borrow, or X to return to the main menu:");
                 String selectedId = scanner.nextLine();
 
@@ -73,6 +76,11 @@ public class Main {
                         System.out.println("What's your full name? First and Last.");
                         String userName = scanner.nextLine();
 
+                        if (userName.isBlank()) {
+                            System.out.println("Please enter your name!!!  The book wasn't checked out.");
+                            break;
+                        }
+
                         book.checkOut(userName);
                         System.out.println("You checked out: " + book.getTitle());
 
@@ -85,16 +93,19 @@ public class Main {
 
             if (choice.equals("2")) {
                 System.out.println("Checked Out Books:");
+                boolean hasCheckedOutBooks = false;
                 for (Book book : books) {
                     if (book.isCheckedOut() == true) {
+                        hasCheckedOutBooks = true;
                         System.out.println(book.getId() + " | " + book.getIsbn() + " | " + book.getTitle() + " | " + book.getCheckedOutTo());
                     }
                 }
-
+                if (hasCheckedOutBooks == false) {
+                    System.out.println("No books are currently checked out.");
+                }
                 System.out.println("Enter C to return a book or books. Enter X to return to the main menu!");
                 String checkInChoice = scanner.nextLine();
-                if (checkInChoice.equalsIgnoreCase("C") == false &&
-                        checkInChoice.equalsIgnoreCase("X") == false) {
+                if (checkInChoice.equalsIgnoreCase("C") == false && checkInChoice.equalsIgnoreCase("X") == false) {
 
                     System.out.println("Please enter C or X.");
                     continue;
