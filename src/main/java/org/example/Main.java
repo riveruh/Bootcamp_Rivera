@@ -23,5 +23,9 @@ public class Main {
         books[17] = new Book(18, "9781250313188", "Gideon the Ninth");
         books[18] = new Book(19, "9781250229885", "Our Wives Under the Sea");
         books[19] = new Book(20, "9780525563433", "Cantoras");
+
+        System.out.println("1. Show Available Books As Of Right Now");
+        System.out.println("2. Show Current Checked Out Books");
+        System.out.println("3. Exit");
     }
 }
