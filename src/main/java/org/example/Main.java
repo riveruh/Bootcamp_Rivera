@@ -1,4 +1,5 @@
 package org.example;
+
 import java.util.Scanner;
 
 public class Main {
@@ -26,16 +27,29 @@ public class Main {
         books[19] = new Book(20, "9780525563433", "Cantoras");
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("1. Show Available Books As Of Right Now");
-        System.out.println("2. Show Current Checked Out Books");
-        System.out.println("3. Exit");
+        while (true) {
+            // menu and choice handling go here
+            System.out.println("1. Show Available Books As Of Right Now");
+            System.out.println("2. Show Current Checked Out Books");
+            System.out.println("3. Exit");
 
-        System.out.println("Enter your choice!");
-        String choice = scanner.nextLine();
+            System.out.println("Enter your choice!");
+            String choice = scanner.nextLine();
 
-        if (choice.equals("3")) {
-            System.out.println("Goodbye!");
-            return;
-        }
-    }
-}
+            if (choice.equals("1")) {
+                System.out.println("Available Books:");
+
+                for (Book book : books) {
+                    if (book.isCheckedOut() == false) {
+                        System.out.println(book.getId() + " | " + book.getIsbn() + " | " + book.getTitle());                    }
+                }
+            }
+
+            if (choice.equals("3")) {
+                System.out.println("Goodbye!");
+                return;
+
+            } // closes if
+        } // closes while
+    } // closes main
+} // closes Main class
