@@ -19,6 +19,10 @@ public class Book {
         this.isCheckedOut = true;
         this.checkedOutTo = name;
     }
+    public void checkIn() {
+        this.isCheckedOut = false;
+        this.checkedOutTo = "";
+    }
 }
 
 
