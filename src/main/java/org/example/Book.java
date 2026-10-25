@@ -17,6 +17,11 @@ public class Book {
     }
 
     public void checkOut(String name) {
+        // Don't let someone check out a book that's already borrowed
+        if (this.isCheckedOut == true) {
+            return;
+        }
+
         this.isCheckedOut = true;
         this.checkedOutTo = name;
     }
