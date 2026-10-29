@@ -20,8 +20,18 @@ public class Main {
 
             switch (choice) {
                 case "1":
-                    System.out.println("Products will go here.");
+                    System.out.println("\n----- PRODUCTS -----");
+
+                    for (Product product : products) {
+                        System.out.printf("%s | %s | $%.2f | %s%n",
+                                product.getSku(),
+                                product.getName(),
+                                product.getPrice(),
+                                product.getStoreDepartment());
+                    }
+
                     break;
+
                 case "2":
                     System.out.println("Your cart will go here.");
                     break;
