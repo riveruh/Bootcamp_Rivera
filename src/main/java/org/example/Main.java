@@ -20,18 +20,8 @@ public class Main {
 
             switch (choice) {
                 case "1":
-                    System.out.println("\n----- PRODUCTS -----");
-
-                    for (Product product : products) {
-                        System.out.printf("%s | %s | $%.2f | %s%n",
-                                product.getSku(),
-                                product.getName(),
-                                product.getPrice(),
-                                product.getStoreDepartment());
-                    }
-
+                    displayProducts(products);
                     break;
-
                 case "2":
                     System.out.println("Your cart will go here.");
                     break;
@@ -45,5 +35,17 @@ public class Main {
         }
 
         scanner.close();
+    }
+
+    public static void displayProducts(ArrayList<Product> products) {
+        System.out.println("\n----- PRODUCTS -----");
+
+        for (Product product : products) {
+            System.out.printf("%s | %s | $%.2f | %s%n",
+                    product.getSku(),
+                    product.getName(),
+                    product.getPrice(),
+                    product.getStoreDepartment());
+        }
     }
 }
