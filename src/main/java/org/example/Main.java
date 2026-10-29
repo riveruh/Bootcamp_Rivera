@@ -2,6 +2,6 @@ package org.example;
 
 public class Main {
     public static void main(String[] args) {
-        StoreFileManager.loadProducts();
-        }
+        System.out.println("Products loaded: " + StoreFileManager.loadProducts().size());
     }
+}

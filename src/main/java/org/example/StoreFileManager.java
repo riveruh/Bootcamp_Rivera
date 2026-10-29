@@ -16,13 +16,18 @@ public class StoreFileManager {
             reader.readLine(); // skip ur header
 
             String row;
-
             while ((row = reader.readLine()) != null) {
-                System.out.println(row);
-            }
+                String[] parts = row.split("\\|");
 
-        } catch (IOException e) {
-            System.out.println("Could not read the products file. Try again!");
+                String sku = parts[0];
+                String name = parts[1];
+                double price = Double.parseDouble(parts[2]);
+                String storeDepartment = parts[3];
+
+                Product product = new Product(sku, name, price, storeDepartment);
+                products.add(product);
+            }        } catch (IOException e) {
+            System.out.println("Could not read the products file.");
         }
 
         return products;
