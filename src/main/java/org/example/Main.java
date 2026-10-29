@@ -63,7 +63,7 @@ public class Main {
 
             switch (choice) {
                 case "1":
-                    System.out.println("Search will go here.");
+                    searchByName(products, scanner);
                     break;
                 case "2":
                     System.out.println("Adding to cart will go here.");
@@ -75,5 +75,31 @@ public class Main {
                     System.out.println("Please enter 1, 2, or 3.");
             }
         }
+    }
+    public static void searchByName(ArrayList<Product> products, Scanner scanner) {
+        System.out.print("Enter a product name: ");
+        String search = scanner.nextLine().trim();
+
+        if (search.isEmpty()) {
+            System.out.println("Please enter a name.");
+            return;
+        }
+
+        ArrayList<Product> matches = new ArrayList<>();
+
+        for (Product product : products) {
+            if (product.getName().toLowerCase().contains(search.toLowerCase())) {
+                matches.add(product);
+            }
+        }
+
+        if (matches.isEmpty()) {
+            System.out.println("No products found.");
+        } else {
+            displayProducts(matches);
+        }
+
+        System.out.print("Press Enter to return to the products menu.");
+        scanner.nextLine();
     }
 }
