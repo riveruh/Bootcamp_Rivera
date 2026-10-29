@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         ArrayList<Product> products = StoreFileManager.loadProducts();
+        ArrayList<Product> cart = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
 
@@ -20,7 +21,7 @@ public class Main {
 
             switch (choice) {
                 case "1":
-                    showProductsMenu(products, scanner);
+                    showProductsMenu(products, cart, scanner);
                     break;
                 case "2":
                     System.out.println("Your cart will go here.");
@@ -49,7 +50,9 @@ public class Main {
         }
     }
 
-    public static void showProductsMenu(ArrayList<Product> products, Scanner scanner) {
+    public static void showProductsMenu(ArrayList<Product> products,
+                                        ArrayList<Product> cart,
+                                        Scanner scanner) {
         boolean browsing = true;
 
         while (browsing) {
@@ -69,7 +72,7 @@ public class Main {
                     searchByName(products, scanner);
                     break;
                 case "2":
-                    System.out.println("Adding to cart will go here.");
+                    addToCart(products, cart, scanner);
                     break;
                 case "3":
                     browsing = false;
@@ -113,7 +116,8 @@ public class Main {
         scanner.nextLine();
     }
 
-    public static void searchByDepartment(ArrayList<Product> products, Scanner scanner) {
+    public static void searchByDepartment(ArrayList<Product> products,
+                                          Scanner scanner) {
         System.out.print("Enter a department: ");
         String search = scanner.nextLine().trim();
 
@@ -170,11 +174,32 @@ public class Main {
             }
 
         } catch (NumberFormatException e) {
-            System.out.println(
-                    "Please enter numbers without a dollar sign.");
+            System.out.println("Please enter numbers without a dollar sign.");
         }
 
         System.out.print("Press Enter to return to the products menu.");
         scanner.nextLine();
+    }
+
+    public static void addToCart(ArrayList<Product> products,
+                                 ArrayList<Product> cart,
+                                 Scanner scanner) {
+        System.out.print("Enter the SKU of the product: ");
+        String sku = scanner.nextLine().trim();
+
+        if (sku.isEmpty()) {
+            System.out.println("Please enter a SKU.");
+            return;
+        }
+
+        for (Product product : products) {
+            if (product.getSku().equalsIgnoreCase(sku)) {
+                cart.add(product);
+                System.out.println(product.getName() + " was added to your cart!");
+                return;
+            }
+        }
+
+        System.out.println("Product not found.");
     }
 }
