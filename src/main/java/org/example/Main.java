@@ -20,7 +20,7 @@ public class Main {
 
             switch (choice) {
                 case "1":
-                    displayProducts(products);
+                    showProductsMenu(products, scanner);
                     break;
                 case "2":
                     System.out.println("Your cart will go here.");
@@ -46,6 +46,34 @@ public class Main {
                     product.getName(),
                     product.getPrice(),
                     product.getStoreDepartment());
+        }
+    }
+    public static void showProductsMenu(ArrayList<Product> products, Scanner scanner) {
+        boolean browsing = true;
+
+        while (browsing) {
+            displayProducts(products);
+
+            System.out.println("\n1. Search Products");
+            System.out.println("2. Add Product to Cart");
+            System.out.println("3. Go Back");
+            System.out.print("Enter your choice: ");
+
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+                    System.out.println("Search will go here.");
+                    break;
+                case "2":
+                    System.out.println("Adding to cart will go here.");
+                    break;
+                case "3":
+                    browsing = false;
+                    break;
+                default:
+                    System.out.println("Please enter 1, 2, or 3.");
+            }
         }
     }
 }
