@@ -48,15 +48,17 @@ public class Main {
                     product.getStoreDepartment());
         }
     }
+
     public static void showProductsMenu(ArrayList<Product> products, Scanner scanner) {
         boolean browsing = true;
 
         while (browsing) {
             displayProducts(products);
 
-            System.out.println("\n1. Search Products");
+            System.out.println("\n1. Search by Name");
             System.out.println("2. Add Product to Cart");
             System.out.println("3. Go Back");
+            System.out.println("4. Search by Department");
             System.out.print("Enter your choice: ");
 
             String choice = scanner.nextLine();
@@ -71,11 +73,15 @@ public class Main {
                 case "3":
                     browsing = false;
                     break;
+                case "4":
+                    searchByDepartment(products, scanner);
+                    break;
                 default:
-                    System.out.println("Please enter 1, 2, or 3.");
+                    System.out.println("Please enter 1, 2, 3, or 4.");
             }
         }
     }
+
     public static void searchByName(ArrayList<Product> products, Scanner scanner) {
         System.out.print("Enter a product name: ");
         String search = scanner.nextLine().trim();
@@ -89,6 +95,33 @@ public class Main {
 
         for (Product product : products) {
             if (product.getName().toLowerCase().contains(search.toLowerCase())) {
+                matches.add(product);
+            }
+        }
+
+        if (matches.isEmpty()) {
+            System.out.println("No products found.");
+        } else {
+            displayProducts(matches);
+        }
+
+        System.out.print("Press Enter to return to the products menu.");
+        scanner.nextLine();
+    }
+
+    public static void searchByDepartment(ArrayList<Product> products, Scanner scanner) {
+        System.out.print("Enter a department: ");
+        String search = scanner.nextLine().trim();
+
+        if (search.isEmpty()) {
+            System.out.println("Please enter a department.");
+            return;
+        }
+
+        ArrayList<Product> matches = new ArrayList<>();
+
+        for (Product product : products) {
+            if (product.getStoreDepartment().equalsIgnoreCase(search)) {
                 matches.add(product);
             }
         }
