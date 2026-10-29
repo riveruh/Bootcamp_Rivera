@@ -59,6 +59,7 @@ public class Main {
             System.out.println("2. Add Product to Cart");
             System.out.println("3. Go Back");
             System.out.println("4. Search by Department");
+            System.out.println("5. Search by Price Range");
             System.out.print("Enter your choice: ");
 
             String choice = scanner.nextLine();
@@ -76,8 +77,11 @@ public class Main {
                 case "4":
                     searchByDepartment(products, scanner);
                     break;
+                case "5":
+                    searchByPrice(products, scanner);
+                    break;
                 default:
-                    System.out.println("Please enter 1, 2, 3, or 4.");
+                    System.out.println("Please enter 1, 2, 3, 4, or 5.");
             }
         }
     }
@@ -130,6 +134,44 @@ public class Main {
             System.out.println("No products found.");
         } else {
             displayProducts(matches);
+        }
+
+        System.out.print("Press Enter to return to the products menu.");
+        scanner.nextLine();
+    }
+
+    public static void searchByPrice(ArrayList<Product> products, Scanner scanner) {
+        try {
+            System.out.print("Enter minimum price: ");
+            double minimum = Double.parseDouble(scanner.nextLine().trim());
+
+            System.out.print("Enter maximum price: ");
+            double maximum = Double.parseDouble(scanner.nextLine().trim());
+
+            if (!Double.isFinite(minimum) || !Double.isFinite(maximum)
+                    || minimum < 0 || maximum < 0 || minimum > maximum) {
+                System.out.println(
+                        "Please use numbers 0 or higher and put the lower price first.");
+                return;
+            }
+
+            ArrayList<Product> matches = new ArrayList<>();
+
+            for (Product product : products) {
+                if (product.getPrice() >= minimum && product.getPrice() <= maximum) {
+                    matches.add(product);
+                }
+            }
+
+            if (matches.isEmpty()) {
+                System.out.println("No products found.");
+            } else {
+                displayProducts(matches);
+            }
+
+        } catch (NumberFormatException e) {
+            System.out.println(
+                    "Please enter numbers without a dollar sign.");
         }
 
         System.out.print("Press Enter to return to the products menu.");
