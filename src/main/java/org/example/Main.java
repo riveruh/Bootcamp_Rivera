@@ -24,7 +24,7 @@ public class Main {
                     showProductsMenu(products, cart, scanner);
                     break;
                 case "2":
-                    System.out.println("Your cart will go here.");
+                    displayCart(cart);
                     break;
                 case "3":
                     System.out.println("Goodbye!");
@@ -201,5 +201,26 @@ public class Main {
         }
 
         System.out.println("Product not found.");
+    }
+    public static void displayCart(ArrayList<Product> cart) {
+        System.out.println("\n----- YOUR CART -----");
+
+        if (cart.isEmpty()) {
+            System.out.println("Your cart is empty.");
+            return;
+        }
+
+        double total = 0;
+
+        for (Product product : cart) {
+            System.out.printf("%s | %s | $%.2f%n",
+                    product.getSku(),
+                    product.getName(),
+                    product.getPrice());
+
+            total += product.getPrice();
+        }
+
+        System.out.printf("Total: $%.2f%n", total);
     }
 }
