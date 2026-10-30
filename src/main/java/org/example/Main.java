@@ -2,6 +2,7 @@ package org.example;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.time.LocalDateTime;
 
 public class Main {
     public static void main(String[] args) {
@@ -246,7 +247,9 @@ public class Main {
 
             switch (choice) {
                 case "1":
-                    System.out.println("Checkout isn't ready yet.");
+                    if (checkOut(cart, scanner)) {
+                        viewingCart = false;
+                    }
                     break;
                 case "2":
                     removeFromCart(cart, scanner);
@@ -285,5 +288,55 @@ public class Main {
         }
 
         System.out.println("That product isn't in your cart.");
+    }
+    public static boolean checkOut(ArrayList<Product> cart, Scanner scanner) {
+        if (cart.isEmpty()) {
+            System.out.println("Your cart is empty.");
+            return false;
+        }
+
+        double total = Math.round(getCartTotal(cart) * 100.0) / 100.0;
+        System.out.printf("Your total is: $%.2f%n", total);
+        System.out.print("Enter your cash payment: ");
+
+        try {
+            double payment = Double.parseDouble(scanner.nextLine().trim());
+
+            if (!Double.isFinite(payment) || payment < 0) {
+                System.out.println("Please enter a valid payment.");
+                return false;
+            }
+
+            payment = Math.round(payment * 100.0) / 100.0;
+
+            if (payment < total) {
+                System.out.println("That's not enough money.");
+                return false;
+            }
+
+            double change = payment - total;
+
+            System.out.println("\n----- RECEIPT -----");
+            System.out.println("Order date: " + LocalDateTime.now());
+
+            for (Product product : cart) {
+                System.out.printf("%s | %s | $%.2f%n",
+                        product.getSku(),
+                        product.getName(),
+                        product.getPrice());
+            }
+
+            System.out.printf("Total: $%.2f%n", total);
+            System.out.printf("Paid: $%.2f%n", payment);
+            System.out.printf("Change: $%.2f%n", change);
+            System.out.println("Thanks for shopping!");
+
+            cart.clear();
+            return true;
+
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a number without a $ sign.");
+            return false;
+        }
     }
 }
