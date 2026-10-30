@@ -3,6 +3,7 @@ package org.example;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Main {
     public static void main(String[] args) {
@@ -335,20 +336,11 @@ public class Main {
 
             double change = payment - total;
 
-            System.out.println("\n----- RECEIPT -----");
-            System.out.println("Order date: " + LocalDateTime.now());
+            LocalDateTime orderDate = LocalDateTime.now();
+            String receipt = createReceipt(cart, total, payment, change, orderDate);
 
-            for (Product product : cart) {
-                System.out.printf("%s | %s | $%.2f%n",
-                        product.getSku(),
-                        product.getName(),
-                        product.getPrice());
-            }
-
-            System.out.printf("Total: $%.2f%n", total);
-            System.out.printf("Paid: $%.2f%n", payment);
-            System.out.printf("Change: $%.2f%n", change);
-            System.out.println("Thanks for shopping!");
+            System.out.println();
+            System.out.print(receipt);
 
             cart.clear();
             return true;
@@ -357,5 +349,49 @@ public class Main {
             System.out.println("Please enter a number without a $ sign.");
             return false;
         }
+    }
+    public static String createReceipt(ArrayList<Product> cart, double total,
+                                       double payment, double change,
+                                       LocalDateTime orderDate) {
+        StringBuilder receipt = new StringBuilder();
+
+        receipt.append("----- RECEIPT -----\n");
+        receipt.append("Order date: ");
+        receipt.append(orderDate.format(
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        receipt.append("\n");
+
+        ArrayList<String> displayedSkus = new ArrayList<>();
+
+        for (Product product : cart) {
+            if (displayedSkus.contains(product.getSku())) {
+                continue;
+            }
+
+            int quantity = 0;
+
+            for (Product cartProduct : cart) {
+                if (cartProduct.getSku().equalsIgnoreCase(product.getSku())) {
+                    quantity++;
+                }
+            }
+
+            receipt.append(String.format(
+                    "%s | %s | Quantity: %d | Each: $%.2f | Total: $%.2f%n",
+                    product.getSku(),
+                    product.getName(),
+                    quantity,
+                    product.getPrice(),
+                    product.getPrice() * quantity));
+
+            displayedSkus.add(product.getSku());
+        }
+
+        receipt.append(String.format("Total: $%.2f%n", total));
+        receipt.append(String.format("Paid: $%.2f%n", payment));
+        receipt.append(String.format("Change: $%.2f%n", change));
+        receipt.append("Thanks for shopping!\n");
+
+        return receipt.toString();
     }
 }
