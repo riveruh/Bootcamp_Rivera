@@ -212,16 +212,35 @@ public class Main {
             return;
         }
 
+        ArrayList<String> displayedSkus = new ArrayList<>();
+
         for (Product product : cart) {
-            System.out.printf("%s | %s | $%.2f%n",
+            if (displayedSkus.contains(product.getSku())) {
+                continue;
+            }
+
+            int quantity = 0;
+
+            for (Product cartProduct : cart) {
+                if (cartProduct.getSku().equalsIgnoreCase(product.getSku())) {
+                    quantity++;
+                }
+            }
+
+            double itemTotal = product.getPrice() * quantity;
+
+            System.out.printf("%s | %s | Quantity: %d | Each: $%.2f | Total: $%.2f%n",
                     product.getSku(),
                     product.getName(),
-                    product.getPrice());
+                    quantity,
+                    product.getPrice(),
+                    itemTotal);
+
+            displayedSkus.add(product.getSku());
         }
 
         System.out.printf("Total: $%.2f%n", getCartTotal(cart));
     }
-
     public static double getCartTotal(ArrayList<Product> cart) {
         double total = 0;
 
