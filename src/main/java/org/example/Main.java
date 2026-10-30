@@ -423,3 +423,14 @@ public class Main {
         }
     }
 }
+// the reference i used for append() and toString():
+// https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/StringBuilder.html
+
+// java is wonderful...
+
+// my date and time references as well:
+// https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/LocalDateTime.html
+// https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/format/DateTimeFormatter.html
+
+// how i made the date and times on the receipts
+// https://docs.oracle.com/javase/tutorial/essential/io/file.html

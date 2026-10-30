@@ -26,7 +26,8 @@ public class StoreFileManager {
 
                 Product product = new Product(sku, name, price, storeDepartment);
                 products.add(product);
-            }        } catch (IOException e) {
+            }
+        } catch (IOException e) {
             System.out.println("Could not read the products file.");
         }
 
