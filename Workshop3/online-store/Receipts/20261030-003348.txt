@@ -1,8 +1,0 @@
------ RECEIPT -----
-Order date: 2026-10-30 00:33:48
-PW1001 | Solar Powered Battery Charger | Quantity: 1 | Each: $19.99 | Total: $19.99
-AV1312 | Mini 1000 Lumens Projector | Quantity: 1 | Each: $149.95 | Total: $149.95
-Total: $169.94
-Paid: $200.00
-Change: $30.06
-Thanks for shopping!
