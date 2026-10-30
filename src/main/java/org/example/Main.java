@@ -17,14 +17,14 @@ public class Main {
             System.out.println("3. Exit");
             System.out.print("Enter your choice: ");
 
-            String choice = scanner.nextLine();
+            String choice = scanner.nextLine().trim();
 
             switch (choice) {
                 case "1":
                     showProductsMenu(products, cart, scanner);
                     break;
                 case "2":
-                    displayCart(cart);
+                    showCartMenu(cart, scanner);
                     break;
                 case "3":
                     System.out.println("Goodbye!");
@@ -65,7 +65,7 @@ public class Main {
             System.out.println("5. Search by Price Range");
             System.out.print("Enter your choice: ");
 
-            String choice = scanner.nextLine();
+            String choice = scanner.nextLine().trim();
 
             switch (choice) {
                 case "1":
@@ -202,6 +202,7 @@ public class Main {
 
         System.out.println("Product not found.");
     }
+
     public static void displayCart(ArrayList<Product> cart) {
         System.out.println("\n----- YOUR CART -----");
 
@@ -222,5 +223,61 @@ public class Main {
         }
 
         System.out.printf("Total: $%.2f%n", total);
+    }
+
+    public static void showCartMenu(ArrayList<Product> cart, Scanner scanner) {
+        boolean viewingCart = true;
+
+        while (viewingCart) {
+            displayCart(cart);
+
+            System.out.println("\n1. Check Out");
+            System.out.println("2. Remove Product");
+            System.out.println("3. Go Back");
+            System.out.print("Enter your choice: ");
+
+            String choice = scanner.nextLine().trim();
+
+            switch (choice) {
+                case "1":
+                    System.out.println("Checkout isn't ready yet.");
+                    break;
+                case "2":
+                    removeFromCart(cart, scanner);
+                    break;
+                case "3":
+                    viewingCart = false;
+                    break;
+                default:
+                    System.out.println("Please enter 1, 2, or 3.");
+            }
+        }
+    }
+
+    public static void removeFromCart(ArrayList<Product> cart, Scanner scanner) {
+        if (cart.isEmpty()) {
+            System.out.println("Your cart is empty.");
+            return;
+        }
+
+        System.out.print("Enter the SKU of the product to remove: ");
+        String sku = scanner.nextLine().trim();
+
+        if (sku.isEmpty()) {
+            System.out.println("Please enter a SKU.");
+            return;
+        }
+
+        for (int i = 0; i < cart.size(); i++) {
+            Product product = cart.get(i);
+
+            if (product.getSku().equalsIgnoreCase(sku)) {
+                cart.remove(i);
+                System.out.println(product.getName() + " was removed from your cart!");
+                return;
+            }
+        }
+
+        System.out.println("That product isn't in your cart.");
     }
 }
