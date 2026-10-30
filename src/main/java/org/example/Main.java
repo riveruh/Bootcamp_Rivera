@@ -1,9 +1,13 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -230,7 +234,8 @@ public class Main {
 
             double itemTotal = product.getPrice() * quantity;
 
-            System.out.printf("%s | %s | Quantity: %d | Each: $%.2f | Total: $%.2f%n",
+            System.out.printf(
+                    "%s | %s | Quantity: %d | Each: $%.2f | Total: $%.2f%n",
                     product.getSku(),
                     product.getName(),
                     quantity,
@@ -242,6 +247,7 @@ public class Main {
 
         System.out.printf("Total: $%.2f%n", getCartTotal(cart));
     }
+
     public static double getCartTotal(ArrayList<Product> cart) {
         double total = 0;
 
@@ -309,6 +315,7 @@ public class Main {
 
         System.out.println("That product isn't in your cart.");
     }
+
     public static boolean checkOut(ArrayList<Product> cart, Scanner scanner) {
         if (cart.isEmpty()) {
             System.out.println("Your cart is empty.");
@@ -341,6 +348,7 @@ public class Main {
 
             System.out.println();
             System.out.print(receipt);
+            saveReceipt(receipt, orderDate);
 
             cart.clear();
             return true;
@@ -350,6 +358,7 @@ public class Main {
             return false;
         }
     }
+
     public static String createReceipt(ArrayList<Product> cart, double total,
                                        double payment, double change,
                                        LocalDateTime orderDate) {
@@ -393,5 +402,24 @@ public class Main {
         receipt.append("Thanks for shopping!\n");
 
         return receipt.toString();
+    }
+
+    public static void saveReceipt(String receipt, LocalDateTime orderDate) {
+        try {
+            Path folder = Path.of("Receipts");
+            Files.createDirectories(folder);
+
+            String fileName = orderDate.format(
+                    DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss")) + ".txt";
+
+            Path receiptFile = folder.resolve(fileName);
+
+            Files.writeString(receiptFile, receipt, StandardOpenOption.CREATE_NEW);
+
+            System.out.println("Receipt saved to: " + receiptFile);
+
+        } catch (IOException e) {
+            System.out.println("Could not save the receipt file.");
+        }
     }
 }
