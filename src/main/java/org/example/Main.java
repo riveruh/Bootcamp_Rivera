@@ -211,18 +211,24 @@ public class Main {
             return;
         }
 
-        double total = 0;
-
         for (Product product : cart) {
             System.out.printf("%s | %s | $%.2f%n",
                     product.getSku(),
                     product.getName(),
                     product.getPrice());
+        }
 
+        System.out.printf("Total: $%.2f%n", getCartTotal(cart));
+    }
+
+    public static double getCartTotal(ArrayList<Product> cart) {
+        double total = 0;
+
+        for (Product product : cart) {
             total += product.getPrice();
         }
 
-        System.out.printf("Total: $%.2f%n", total);
+        return total;
     }
 
     public static void showCartMenu(ArrayList<Product> cart, Scanner scanner) {
