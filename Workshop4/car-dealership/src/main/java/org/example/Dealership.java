@@ -1,7 +1,7 @@
 package org.example;
 
-import java.util.ArrayList;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Dealership {
@@ -39,8 +39,8 @@ public class Dealership {
 
     public void setPhone(String phone) {
         this.phone = phone;
-
     }
+
     public void addVehicle(Vehicle vehicle) {
         inventory.add(vehicle);
     }
@@ -62,7 +62,15 @@ public class Dealership {
     }
 
     public List<Vehicle> getVehiclesByColor(String color) {
-        return null;
+        List<Vehicle> matches = new ArrayList<>();
+
+        for (Vehicle vehicle : inventory) {
+            if (vehicle.getColor().equalsIgnoreCase(color)) {
+                matches.add(vehicle);
+            }
+        }
+
+        return matches;
     }
 
     public List<Vehicle> getVehiclesByMileage(int min, int max) {
