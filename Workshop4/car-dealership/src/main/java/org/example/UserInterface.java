@@ -113,6 +113,24 @@ public class UserInterface {
     }
 
     public void processGetByYearRequest() {
+        try {
+            System.out.print("Enter minimum year: ");
+            int min = Integer.parseInt(scanner.nextLine().trim());
+
+            System.out.print("Enter maximum year: ");
+            int max = Integer.parseInt(scanner.nextLine().trim());
+
+            if (min > max) {
+                System.out.println("Minimum year cannot exceed maximum year.");
+                return;
+            }
+
+            List<Vehicle> vehicles = dealership.getVehiclesByYear(min, max);
+            displayVehicles(vehicles);
+
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter valid whole numbers for years.");
+        }
     }
 
     public void processGetByColorRequest() {
