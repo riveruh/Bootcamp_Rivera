@@ -142,6 +142,31 @@ public class UserInterface {
     }
 
     public void processGetByMileageRequest() {
+        try {
+            System.out.print("Enter minimum mileage: ");
+            int min = Integer.parseInt(scanner.nextLine().trim());
+
+            System.out.print("Enter maximum mileage: ");
+            int max = Integer.parseInt(scanner.nextLine().trim());
+
+            if (min < 0 || max < 0) {
+                System.out.println("Mileage cannot be negative.");
+                return;
+            }
+
+            if (min > max) {
+                System.out.println(
+                        "Minimum mileage cannot exceed maximum mileage."
+                );
+                return;
+            }
+
+            List<Vehicle> vehicles = dealership.getVehiclesByMileage(min, max);
+            displayVehicles(vehicles);
+
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter valid whole numbers for mileage.");
+        }
     }
 
     public void processGetByVehicleTypeRequest() {
