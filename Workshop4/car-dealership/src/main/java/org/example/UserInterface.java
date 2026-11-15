@@ -102,6 +102,14 @@ public class UserInterface {
     }
 
     public void processGetByMakeModelRequest() {
+        System.out.print("Enter vehicle make: ");
+        String make = scanner.nextLine().trim();
+
+        System.out.print("Enter vehicle model: ");
+        String model = scanner.nextLine().trim();
+
+        List<Vehicle> vehicles = dealership.getVehiclesByMakeModel(make, model);
+        displayVehicles(vehicles);
     }
 
     public void processGetByYearRequest() {
