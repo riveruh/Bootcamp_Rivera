@@ -208,6 +208,101 @@ public class UserInterface {
     }
 
     public void processAddVehicleRequest() {
+        try {
+            System.out.print("Enter VIN (whole number): ");
+            int vin = Integer.parseInt(scanner.nextLine().trim());
+
+            if (vin <= 0) {
+                System.out.println("VIN must be a positive number.");
+                return;
+            }
+
+            for (Vehicle existingVehicle : dealership.getAllVehicles()) {
+                if (existingVehicle.getVin() == vin) {
+                    System.out.println("A vehicle with that VIN already exists.");
+                    return;
+                }
+            }
+
+            System.out.print("Enter year: ");
+            int year = Integer.parseInt(scanner.nextLine().trim());
+
+            if (year <= 0) {
+                System.out.println("Year must be a positive number.");
+                return;
+            }
+
+            System.out.print("Enter make: ");
+            String make = scanner.nextLine().trim();
+
+            System.out.print("Enter model: ");
+            String model = scanner.nextLine().trim();
+
+            System.out.print("Enter type (car, truck, SUV, van): ");
+            String vehicleType = scanner.nextLine().trim();
+
+            System.out.print("Enter color: ");
+            String color = scanner.nextLine().trim();
+
+            if (make.isBlank() || model.isBlank()
+                    || vehicleType.isBlank() || color.isBlank()) {
+                System.out.println("Vehicle details cannot be blank.");
+                return;
+            }
+
+            if (make.contains("|") || model.contains("|")
+                    || vehicleType.contains("|") || color.contains("|")) {
+                System.out.println("Vehicle details cannot contain |.");
+                return;
+            }
+
+            if (!vehicleType.equalsIgnoreCase("car")
+                    && !vehicleType.equalsIgnoreCase("truck")
+                    && !vehicleType.equalsIgnoreCase("SUV")
+                    && !vehicleType.equalsIgnoreCase("van")) {
+                System.out.println("Type must be car, truck, SUV, or van.");
+                return;
+            }
+
+            System.out.print("Enter mileage (no commas): ");
+            int odometer = Integer.parseInt(scanner.nextLine().trim());
+
+            if (odometer < 0) {
+                System.out.println("Mileage cannot be negative.");
+                return;
+            }
+
+            System.out.print("Enter price (no $ or commas): ");
+            BigDecimal price = new BigDecimal(scanner.nextLine().trim());
+
+            if (price.compareTo(BigDecimal.ZERO) < 0) {
+                System.out.println("Price cannot be negative.");
+                return;
+            }
+
+            Vehicle vehicle = new Vehicle(
+                    vin, year, make, model,
+                    vehicleType, color, odometer, price
+            );
+
+            dealership.addVehicle(vehicle);
+
+            DealershipFileManager fileManager = new DealershipFileManager();
+            fileManager.saveDealership(dealership);
+
+            System.out.println("Vehicle added and inventory saved.");
+
+        } catch (NumberFormatException e) {
+            System.out.println(
+                    "Invalid number. Use whole numbers for VIN, year, and mileage,"
+                            + " and a valid decimal for price."
+            );
+        } catch (IllegalStateException e) {
+            System.out.println(
+                    "The vehicle was added in memory, but saving failed."
+                            + " The inventory file may be incomplete."
+            );
+        }
     }
 
     public void processRemoveVehicleRequest() {
