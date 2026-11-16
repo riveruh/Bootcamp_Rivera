@@ -306,5 +306,56 @@ public class UserInterface {
     }
 
     public void processRemoveVehicleRequest() {
+        try {
+            System.out.print("Enter VIN of vehicle to remove: ");
+            int vin = Integer.parseInt(scanner.nextLine().trim());
+
+            if (vin <= 0) {
+                System.out.println("VIN must be a positive number.");
+                return;
+            }
+
+            Vehicle vehicleToRemove = null;
+
+            for (Vehicle vehicle : dealership.getAllVehicles()) {
+                if (vehicle.getVin() == vin) {
+                    vehicleToRemove = vehicle;
+                    break;
+                }
+            }
+
+            if (vehicleToRemove == null) {
+                System.out.println("No vehicle found with that VIN.");
+                return;
+            }
+
+            System.out.println(
+                    "Selected: " + vehicleToRemove.getYear() + " "
+                            + vehicleToRemove.getMake() + " "
+                            + vehicleToRemove.getModel()
+            );
+            System.out.print("Remove this vehicle? (Y/N): ");
+            String confirmation = scanner.nextLine().trim();
+
+            if (!confirmation.equalsIgnoreCase("Y")) {
+                System.out.println("Removal canceled.");
+                return;
+            }
+
+            dealership.removeVehicle(vehicleToRemove);
+
+            DealershipFileManager fileManager = new DealershipFileManager();
+            fileManager.saveDealership(dealership);
+
+            System.out.println("Vehicle removed and inventory saved.");
+
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid whole number for VIN.");
+        } catch (IllegalStateException e) {
+            System.out.println(
+                    "The vehicle was removed in memory, but saving failed."
+                            + " The inventory file may be incomplete."
+            );
+        }
     }
 }
