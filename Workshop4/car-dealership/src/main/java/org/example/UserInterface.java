@@ -1,5 +1,6 @@
 package org.example;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Scanner;
 
@@ -99,6 +100,30 @@ public class UserInterface {
     }
 
     public void processGetByPriceRequest() {
+        try {
+            System.out.print("Enter minimum price (no $ or commas): ");
+            BigDecimal min = new BigDecimal(scanner.nextLine().trim());
+
+            System.out.print("Enter maximum price (no $ or commas): ");
+            BigDecimal max = new BigDecimal(scanner.nextLine().trim());
+
+            if (min.compareTo(BigDecimal.ZERO) < 0
+                    || max.compareTo(BigDecimal.ZERO) < 0) {
+                System.out.println("Price cannot be negative.");
+                return;
+            }
+
+            if (min.compareTo(max) > 0) {
+                System.out.println("Minimum price cannot exceed maximum price.");
+                return;
+            }
+
+            List<Vehicle> vehicles = dealership.getVehiclesByPrice(min, max);
+            displayVehicles(vehicles);
+
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter valid prices without $ or commas.");
+        }
     }
 
     public void processGetByMakeModelRequest() {
