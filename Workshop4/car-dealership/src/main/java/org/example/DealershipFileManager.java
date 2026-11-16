@@ -1,7 +1,9 @@
 package org.example;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 
@@ -24,6 +26,7 @@ public class DealershipFileManager {
             String phone = dealershipInfo[2];
 
             Dealership dealership = new Dealership(name, address, phone);
+
             String line;
 
             while ((line = reader.readLine()) != null) {
@@ -49,6 +52,7 @@ public class DealershipFileManager {
 
                 dealership.addVehicle(vehicle);
             }
+
             return dealership;
 
         } catch (IOException e) {
@@ -57,6 +61,32 @@ public class DealershipFileManager {
     }
 
     public void saveDealership(Dealership dealership) {
-        // we will implement saving laterrr
+        try (BufferedWriter writer =
+                     new BufferedWriter(new FileWriter("inventory.csv"))) {
+
+            writer.write(
+                    dealership.getName() + "|"
+                            + dealership.getAddress() + "|"
+                            + dealership.getPhone()
+            );
+            writer.newLine();
+
+            for (Vehicle vehicle : dealership.getAllVehicles()) {
+                writer.write(
+                        vehicle.getVin() + "|"
+                                + vehicle.getYear() + "|"
+                                + vehicle.getMake() + "|"
+                                + vehicle.getModel() + "|"
+                                + vehicle.getVehicleType() + "|"
+                                + vehicle.getColor() + "|"
+                                + vehicle.getOdometer() + "|"
+                                + vehicle.getPrice().toPlainString()
+                );
+                writer.newLine();
+            }
+
+        } catch (IOException e) {
+            throw new IllegalStateException("Unable to save inventory.csv.", e);
+        }
     }
 }
